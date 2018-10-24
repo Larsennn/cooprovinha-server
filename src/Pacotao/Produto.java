@@ -15,6 +15,7 @@ public class Produto implements Serializable  {
     private String nome;
     private String tipo;
     private float preco;
+    private static final long serialVersionUID = 1234L;
 
     public Produto(String nome, String tipo, float preco) {
         this.nome = nome;

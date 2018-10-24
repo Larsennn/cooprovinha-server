@@ -10,6 +10,7 @@ public class Pessoa implements Serializable{
     private String email;
     private String login;
     private String senha;
+    private static final long serialVersionUID = 12346L;
 
     public Pessoa(String nome, String data_nasc, int telefone, int ddd, String email, String login, String senha) {
         this.nome = nome;

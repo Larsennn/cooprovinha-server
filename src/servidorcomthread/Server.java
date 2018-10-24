@@ -59,105 +59,123 @@ public class Server implements Runnable {
     @Override
     public void run() {
         try {
-
             System.out.println("Nova conexao com o cliente " + cliente.getInetAddress().getHostAddress());
-
+            
             ObjectInputStream Entrada = new ObjectInputStream(cliente.getInputStream());
-            System.out.println("1");
             ObjectOutputStream Saida = new ObjectOutputStream(cliente.getOutputStream());
-            System.out.println("2");
+            
             Produto P;
             Administrador A;
             Produtor Pr;
-            int valor = 12;
-            boolean meuOvo = true;
+            int valor = 0;
             boolean iniciarServidor = true;
-            
-            while (valor != 99) {
-                System.out.println("inicio: "+valor);
-                System.out.println("3");
-                ///recebendo um inteiro
-                if (meuOvo) {
-                    valor = (int) Entrada.readObject();
-                    meuOvo = false;
+
+            while (iniciarServidor) {
+                if (Entrada.available() > 0) {
+                   // valor = Entrada.read();
+                   valor = (int) Entrada.readInt();
+                    System.out.println("valor: " + valor);
+                    if (valor == 12) {
+                        System.out.println("12");
+                        P = (Produto) Entrada.readObject();
+                        System.out.println("O Nome informado foi:" + P.getNome());
+                        System.out.println("O tipo informado foi:" + P.getTipo());
+                        System.out.println("O preço informado foi:" + P.getPreco());
+                        con.InsereProduto(P);
+                    } 
+                    else if (valor == 14) {
+                        System.out.println("14");
+                        A = (Administrador) Entrada.readObject();
+                        System.out.println("O nome informado foi: " + A.getNome());
+                        System.out.println("A data de nascimento informada foi: " + A.getData_nasc());
+                        System.out.println("O telefone informado foi: " + A.getTelefone());
+                        System.out.println("O ddd informado foi: " + A.getDdd());
+                        System.out.println("O email informado foi: " + A.getEmail());
+                        System.out.println("O login informado foi: " + A.getLogin());
+                        System.out.println("A senha informada foi: " + A.getSenha());
+                        System.out.println("O RG informado foi: " + A.getRG());
+                        System.out.println("O CPF informado foi: " + A.getCPF());
+                        con.InsereAdministrador(A);
+                    } else if (valor == 15) {
+                        Pr = (Produtor) Entrada.readObject();
+                        System.out.println("O nome informado foi: " + Pr.getNome());
+                        System.out.println("A data de nascimento informada foi: " + Pr.getData_nasc());
+                        System.out.println("O telefone informado foi: " + Pr.getTelefone());
+                        System.out.println("O ddd informado foi: " + Pr.getDdd());
+                        System.out.println("O email informado foi: " + Pr.getEmail());
+                        System.out.println("O login informado foi: " + Pr.getLogin());
+                        System.out.println("A senha informada foi: " + Pr.getSenha());
+                        System.out.println("A DAP informada foi: " + Pr.getDAP());
+                        con.InsereProdutor(Pr);
+                    } else if (valor == 16) {
+                        A = (Administrador) Entrada.readObject();
+                        System.out.println("O nome informado foi: " + A.getNome());
+                        System.out.println("A data de nascimento informada foi: " + A.getData_nasc());
+                        System.out.println("O telefone informado foi: " + A.getTelefone());
+                        System.out.println("O ddd informado foi: " + A.getDdd());
+                        System.out.println("O email informado foi: " + A.getEmail());
+                        System.out.println("O RG informado foi: " + A.getRG());
+                        System.out.println("O CPF informado foi: " + A.getCPF());
+                        con.EditaAdmin(A);
+                    } else if (valor == 17) {
+                        System.out.println("Chegou até aqui");
+                        ConsultaAdministrador();
+                        Saida.writeObject(ListaAdmin);
+                    } else if (valor == 18) {
+                        Pr = (Produtor) Entrada.readObject();
+                        System.out.println("O nome informado foi: " + Pr.getNome());
+                        System.out.println("A data de nascimento informada foi: " + Pr.getData_nasc());
+                        System.out.println("O telefone informado foi: " + Pr.getTelefone());
+                        System.out.println("O ddd informado foi: " + Pr.getDdd());
+                        System.out.println("O email informado foi: " + Pr.getEmail());
+                        System.out.println("A DAP informada foi: " + Pr.getDAP());
+                        con.EditaProdutor(Pr);
+                    } else if (valor == 19) {
+                        System.out.println("Chegou até aqui2");
+                        ConsultaProdutor();
+                        Saida.writeObject(ListaProdutor);
+                    } else if (valor == 20) {
+                        P = (Produto) Entrada.readObject();
+                        System.out.println("O Nome informado foi:" + P.getNome());
+                        System.out.println("O tipo informado foi:" + P.getTipo());
+                        System.out.println("O preço informado foi:" + P.getPreco());
+                        con.EditaProdutos(P);
+                    } else if (valor == 21) {
+                        ConsultaProduto();
+                        Saida.writeObject(ListaProdutos);
+                    }
                 }
-                System.out.println("depois ler: " + valor);
-//                if (valor == 12) {
-//                    System.out.println("12");
-//                    P = (Produto) Entrada.readObject();
-//                    System.out.println("O Nome informado foi:" + P.getNome());
-//                    System.out.println("O tipo informado foi:" + P.getTipo());
-//                    System.out.println("O preço informado foi:" + P.getPreco());
-//                    con.InsereProduto(P);
-//                } else if (valor == 14) {
-//                    System.out.println("14");
-//                    A = (Administrador) Entrada.readObject();
-//                    System.out.println("O nome informado foi: " + A.getNome());
-//                    System.out.println("A data de nascimento informada foi: " + A.getData_nasc());
-//                    System.out.println("O telefone informado foi: " + A.getTelefone());
-//                    System.out.println("O ddd informado foi: " + A.getDdd());
-//                    System.out.println("O email informado foi: " + A.getEmail());
-//                    System.out.println("O login informado foi: " + A.getLogin());
-//                    System.out.println("A senha informada foi: " + A.getSenha());
-//                    System.out.println("O RG informado foi: " + A.getRG());
-//                    System.out.println("O CPF informado foi: " + A.getCPF());
-//                    con.InsereAdministrador(A);
-//                } else if (valor == 15) {
-//                    Pr = (Produtor) Entrada.readObject();
-//                    System.out.println("O nome informado foi: " + Pr.getNome());
-//                    System.out.println("A data de nascimento informada foi: " + Pr.getData_nasc());
-//                    System.out.println("O telefone informado foi: " + Pr.getTelefone());
-//                    System.out.println("O ddd informado foi: " + Pr.getDdd());
-//                    System.out.println("O email informado foi: " + Pr.getEmail());
-//                    System.out.println("O login informado foi: " + Pr.getLogin());
-//                    System.out.println("A senha informada foi: " + Pr.getSenha());
-//                    System.out.println("A DAP informada foi: " + Pr.getDAP());
-//                    con.InsereProdutor(Pr);
-//                } else if (valor == 16) {
-//                    A = (Administrador) Entrada.readObject();
-//                    System.out.println("O nome informado foi: " + A.getNome());
-//                    System.out.println("A data de nascimento informada foi: " + A.getData_nasc());
-//                    System.out.println("O telefone informado foi: " + A.getTelefone());
-//                    System.out.println("O ddd informado foi: " + A.getDdd());
-//                    System.out.println("O email informado foi: " + A.getEmail());
-//                    System.out.println("O RG informado foi: " + A.getRG());
-//                    System.out.println("O CPF informado foi: " + A.getCPF());
-//                    con.EditaAdmin(A);
-//                } else if (valor == 17) {
-//                    System.out.println("Chegou até aqui");
-//                    ConsultaAdministrador();
-//                    Saida.writeObject(ListaAdmin);
-//                } else if (valor == 18) {
-//                    Pr = (Produtor) Entrada.readObject();
-//                    System.out.println("O nome informado foi: " + Pr.getNome());
-//                    System.out.println("A data de nascimento informada foi: " + Pr.getData_nasc());
-//                    System.out.println("O telefone informado foi: " + Pr.getTelefone());
-//                    System.out.println("O ddd informado foi: " + Pr.getDdd());
-//                    System.out.println("O email informado foi: " + Pr.getEmail());
-//                    System.out.println("A DAP informada foi: " + Pr.getDAP());
-//                    con.EditaProdutor(Pr);
-//                } else if (valor == 19) {
-//                    System.out.println("Chegou até aqui2");
-//                    ConsultaProdutor();
-//                    Saida.writeObject(ListaProdutor);
-//                } else if (valor == 20) {
-//                    P = (Produto) Entrada.readObject();
-//                    System.out.println("O Nome informado foi:" + P.getNome());
-//                    System.out.println("O tipo informado foi:" + P.getTipo());
-//                    System.out.println("O preço informado foi:" + P.getPreco());
-//                    con.EditaProdutos(P);
-//                } else if (valor == 21) {
-//                    ConsultaProduto();
-//                    Saida.writeObject(ListaProdutos);
-//                }
-                System.out.println("fim: " + valor);
+//                System.out.println("fim: " + valor);
             }
 
-        } catch (IOException ex) {
-            System.out.println("Deu erro: " + ex.getMessage());
+        }catch (IOException ex) {
+            System.err.println("Deu erro: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
+//        catch (ClassNotFoundException ex) {
+//            System.out.println("Nao achou a classe pessoa: " + ex.getMessage());
+//        }
+//        catch (ClassNotFoundException ex) {
+//            System.out.println("Nao achou a classe pessoa: " + ex.getMessage());
+//        }
+//        catch (ClassNotFoundException ex) {
+//            System.out.println("Nao achou a classe pessoa: " + ex.getMessage());
+//        }
+//        catch (ClassNotFoundException ex) {
+//            System.out.println("Nao achou a classe pessoa: " + ex.getMessage());
+//        }
+        
+//        catch (ClassNotFoundException ex) {
+//            System.out.println("Nao achou a classe pessoa: " + ex.getMessage());
+//        }
+//        catch (ClassNotFoundException ex) {
+//            System.out.println("Nao achou a classe pessoa: " + ex.getMessage());
+//        }
+
+//        catch (ClassNotFoundException ex) {
+//            System.out.println("Nao achou a classe pessoa: " + ex.getMessage());
+//        }
 //        catch (ClassNotFoundException ex) {
 //            System.out.println("Nao achou a classe pessoa: " + ex.getMessage());
 //        }

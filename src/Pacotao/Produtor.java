@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 public class Produtor extends Pessoa implements Serializable  {
     private String DAP;
+    private static final long serialVersionUID = 12345L;
 
     public Produtor(String nome, String data_nasc, int telefone, int ddd, String email, String login, String senha, String DAP) {
         super(nome, data_nasc, telefone, ddd, email, login, senha);
