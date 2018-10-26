@@ -72,8 +72,8 @@ public class Server implements Runnable {
 
             while (iniciarServidor) {
                 if (Entrada.available() > 0) {
-                   // valor = Entrada.read();
-                   valor = (int) Entrada.readInt();
+                    //valor = Entrada.read();
+                    valor = (int) Entrada.readInt();
                     System.out.println("valor: " + valor);
                     if (valor == 12) {
                         System.out.println("12");
@@ -82,8 +82,7 @@ public class Server implements Runnable {
                         System.out.println("O tipo informado foi:" + P.getTipo());
                         System.out.println("O preço informado foi:" + P.getPreco());
                         con.InsereProduto(P);
-                    } 
-                    else if (valor == 14) {
+                    } else if (valor == 14) {
                         System.out.println("14");
                         A = (Administrador) Entrada.readObject();
                         System.out.println("O nome informado foi: " + A.getNome());
@@ -147,8 +146,7 @@ public class Server implements Runnable {
                 }
 //                System.out.println("fim: " + valor);
             }
-
-        }catch (IOException ex) {
+        } catch (IOException ex) {
             System.err.println("Deu erro: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
