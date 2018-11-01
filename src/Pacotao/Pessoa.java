@@ -77,9 +77,10 @@ public class Pessoa implements Serializable{
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
-   
-    
+    @Override
+    public String toString() {
+        return "Pessoa{" + "nome=" + nome + ", data_nasc=" + data_nasc + ", telefone=" + telefone + ", ddd=" + ddd + ", email=" + email + ", login=" + login + ", senha=" + senha + '}';
+    }
 }
 
     

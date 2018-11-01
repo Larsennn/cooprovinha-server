@@ -27,8 +27,9 @@ public class Produtor extends Pessoa implements Serializable  {
     public void setDAP(String DAP) {
         this.DAP = DAP;
     }
-   
-    
 
-    
+    @Override
+    public String toString() {
+        return "Produtor{" + "DAP=" + DAP + '}';
+    }
 }

@@ -5,11 +5,13 @@
  */
 package Pacotao;
 
+import java.io.Serializable;
+
 /**
  *
  * @author User
  */
-public class Programa {
+public class Programa implements Serializable{
     private String nome;
     private String sigla;
     private String orgao;

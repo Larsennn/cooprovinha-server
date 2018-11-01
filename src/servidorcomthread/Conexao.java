@@ -1,8 +1,10 @@
 package servidorcomthread;
 
 import Pacotao.Administrador;
+import Pacotao.Entregas;
 import Pacotao.Produto;
 import Pacotao.Produtor;
+import Pacotao.Programa;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -25,11 +27,7 @@ public class Conexao {
 
     Conexao() throws SQLException {
         conexao = DriverManager.getConnection(url, userName, password);
-    }
-
-
-
-                
+    }              
         void InsereAdministrador (Administrador A) {
         try{
         Conexao con = new Conexao();
@@ -60,6 +58,30 @@ public class Conexao {
         Statement st = conexao.createStatement();
         
         st.executeUpdate("INSERT INTO produtores (pes_DAP, pes_Nome, pes_Data_Nasc, pes_Email,pes_telefone, pes_ddd, pes_login, pes_senha) VALUES ('"+Pr.getDAP()+"','"+Pr.getNome()+"','"+Pr.getData_nasc()+"','"+Pr.getEmail()+"',"+Pr.getTelefone()+","+Pr.getDdd()+",'"+Pr.getLogin()+"','"+Pr.getSenha()+"') ");
+        } 
+        catch(Exception e)
+        {
+            System.out.println("Deu erro na inserção!"+e);
+        }
+    }
+        void InserePrograma (Programa Prog) {
+        try{
+        Conexao con = new Conexao();
+        Statement st = conexao.createStatement();
+        
+        st.executeUpdate("INSERT INTO programa (pro_Nome, pro_Sigla, pro_Orgao) VALUES ('"+Prog.getNome()+"','"+Prog.getSigla()+"','"+Prog.getOrgao()+"') ");
+        } 
+        catch(Exception e)
+        {
+            System.out.println("Deu erro na inserção!"+e);
+        }
+    }
+        void InsereEntregas (Entregas Ent) {
+        try{
+        Conexao con = new Conexao();
+        Statement st = conexao.createStatement();
+        
+        st.executeUpdate("INSERT INTO entregas (ent_locais, ent_ValorProduto, ent_ValorTotal, ent_QtProduto, Produtos_pro_Id, Programa_pro_Id) VALUES ('"+Ent.getLocalEntrega()+"',"+Ent.getValorProduto()+","+Ent.getValorTotal()+", "+Ent.getQtProduto()+", "+Ent.getProduto()+", "+Ent.getPrograma()+") ");
         } 
         catch(Exception e)
         {
@@ -101,9 +123,7 @@ public class Conexao {
         {
             System.out.println("Deu erro no Update!"+e);
         }
-}
-  
-        
+}        
           LinkedList <Administrador> ConsultaAdministrador2 (String consulta) {
               LinkedList <Administrador> ListaAdmin = new LinkedList();
             try{
@@ -184,5 +204,27 @@ public class Conexao {
         }
         return ListaProdutos;
     }
-  
+              LinkedList <Programa> ConsultaPrograma (String consulta) {
+            LinkedList <Programa> ListaPrograma = new LinkedList();
+            try{
+                Conexao con = new Conexao();
+                Statement st = conexao.createStatement();
+                
+                st.executeQuery(consulta);
+                ResultSet rs = st.getResultSet();
+                        
+            while (rs.next()) {
+            String nome = rs.getString("pro_Nome");
+            String sigla = rs.getString("pro_Sigla");
+            String orgao = rs.getString("pro_Orgao");
+            Programa meuPrograma = new Programa ( nome,  sigla,  orgao);
+            ListaPrograma.add(meuPrograma);  
+            }
+              System.out.println("Tamano da lista" + ListaPrograma.size());
+                
+            } catch (Exception e) {
+               System.out.println(""+e); 
+        }
+        return ListaPrograma;
+    }
 }

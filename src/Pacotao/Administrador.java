@@ -37,7 +37,8 @@ public class Administrador extends Pessoa implements Serializable {
     public void setCPF(String CPF) {
         this.CPF = CPF;
     }
-    
-
-    
+    @Override
+    public String toString() {
+        return "Administrador{" + "RG=" + RG + ", CPF=" + CPF + '}';
+    }
 }
