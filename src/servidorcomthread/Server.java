@@ -287,9 +287,10 @@ public class Server implements Runnable {
         String nome = null;
         String tipo = null;
         float preco = 0;
+        int id = 0;
 
         String pesquisa = "SELECT * FROM produtos";
-        int v1 = 0, v2 = 0, v3 = 0;
+        int v1 = 0, v2 = 0, v3 = 0, v4 = 0;
 
         if (v1 == 1 || v2 == 1 || v3 == 1) {
             pesquisa = pesquisa + " WHERE ";
@@ -307,6 +308,9 @@ public class Server implements Runnable {
         if (v3 == 1) {
             pesquisa = pesquisa + "" + y + " pro_Preco like '%" + preco + "%'";
         }
+        if (v4 == 1) {
+            pesquisa = pesquisa + "" + y + " pro_Id like '%" + id + "%'";
+        }
 
         pesquisa = pesquisa + ";";
         System.out.println("Mandei essa consulta" + pesquisa);
@@ -319,9 +323,10 @@ public class Server implements Runnable {
         String nome = null;
         String sigla = null;
         String orgao = null;
+        int id = 0;
 
-        String pesquisa = "SELECT * FROM programas";
-        int v1 = 0, v2 = 0, v3 = 0;
+        String pesquisa = "SELECT * FROM programa";
+        int v1 = 0, v2 = 0, v3 = 0, v4 = 0;
 
         if (v1 == 1 || v2 == 1 || v3 == 1) {
             pesquisa = pesquisa + " WHERE ";
@@ -338,6 +343,9 @@ public class Server implements Runnable {
         }
         if (v3 == 1) {
             pesquisa = pesquisa + "" + y + " pro_Orgao like '%" + orgao + "%'";
+        }
+        if (v4 == 1) {
+            pesquisa = pesquisa + "" + y + " pro_Id like '%" + id + "%'";
         }
 
         pesquisa = pesquisa + ";";

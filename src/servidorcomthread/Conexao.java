@@ -191,10 +191,11 @@ public class Conexao {
                 ResultSet rs = st.getResultSet();
                         
             while (rs.next()) {
+            int id = rs.getInt("pro_Id");
             String nome = rs.getString("pro_Nome");
             String tipo = rs.getString("pro_Tipo");
             float preco = rs.getFloat("pro_Preco");
-            Produto meuProduto = new Produto ( nome,  tipo,  preco);
+            Produto meuProduto = new Produto (id, nome,  tipo,  preco);
             ListaProdutos.add(meuProduto);  
             }
               System.out.println("Tamano da lista" + ListaProdutos.size());
@@ -214,10 +215,11 @@ public class Conexao {
                 ResultSet rs = st.getResultSet();
                         
             while (rs.next()) {
+            int id = rs.getInt("pro_Id");    
             String nome = rs.getString("pro_Nome");
             String sigla = rs.getString("pro_Sigla");
             String orgao = rs.getString("pro_Orgao");
-            Programa meuPrograma = new Programa ( nome,  sigla,  orgao);
+            Programa meuPrograma = new Programa (id, nome,  sigla,  orgao);
             ListaPrograma.add(meuPrograma);  
             }
               System.out.println("Tamano da lista" + ListaPrograma.size());

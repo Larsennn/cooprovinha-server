@@ -12,15 +12,25 @@ import java.io.Serializable;
  * @author User
  */
 public class Programa implements Serializable{
+    private int id;
     private String nome;
     private String sigla;
     private String orgao;
     private static final long serialVersionUID = 12349L;
 
-    public Programa(String nome, String sigla, String orgao) {
+    public Programa(int id, String nome, String sigla, String orgao) {
+        this.id = id;
         this.nome = nome;
         this.sigla = sigla;
         this.orgao = orgao;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -49,6 +59,7 @@ public class Programa implements Serializable{
 
     @Override
     public String toString() {
-        return "Programa{" + "nome=" + nome + ", sigla=" + sigla + ", orgao=" + orgao + '}';
+        return "Programa{" + "id=" + id + ", nome=" + nome + ", sigla=" + sigla + ", orgao=" + orgao + '}';
     }
+
 }
