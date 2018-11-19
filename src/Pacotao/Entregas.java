@@ -28,7 +28,7 @@ public class Entregas implements Serializable {
         this.localEntrega = localEntrega;
         this.programa = programa;
     }
-
+    
     public int getProduto() {
         return produto;
     }

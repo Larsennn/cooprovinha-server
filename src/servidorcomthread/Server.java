@@ -27,6 +27,7 @@ public class Server implements Runnable {
     LinkedList<Produtor> ListaProdutor;
     LinkedList<Produto> ListaProdutos;
     LinkedList<Programa> ListaPrograma;
+    LinkedList<Entregas> ListaEntregas;
 
     public Server(Socket cliente) {
         this.cliente = cliente;
@@ -38,7 +39,6 @@ public class Server implements Runnable {
         //Cria um socket na porta 12345
         ServerSocket servidor = new ServerSocket(12345);
         System.out.println("Porta 12345 aberta!");
-
         // Aguarda alguém se conectar. A execução do servidor
         // fica bloqueada na chamada do método accept da classe
         // ServerSocket. Quando alguém se conectar ao servidor, o
@@ -167,6 +167,9 @@ public class Server implements Runnable {
                     System.out.println("O orgão informado foi:" + Prog.getOrgao());
                     System.out.println("A sigla informado foi:" + Prog.getSigla());
                     con.InserePrograma(Prog);
+                } else if (valor == 26) {
+                    ConsultaEntregas();
+                    Saida.writeObject(ListaEntregas);
                 }
             }
 
@@ -328,7 +331,7 @@ public class Server implements Runnable {
         String pesquisa = "SELECT * FROM programa";
         int v1 = 0, v2 = 0, v3 = 0, v4 = 0;
 
-        if (v1 == 1 || v2 == 1 || v3 == 1) {
+        if (v1 == 1 || v2 == 1 || v3 == 1 || v4 == 1) {
             pesquisa = pesquisa + " WHERE ";
         }
         // alterar pesquisa
@@ -352,6 +355,50 @@ public class Server implements Runnable {
         System.out.println("Mandei essa consulta" + pesquisa);
         ListaPrograma = con.ConsultaPrograma(pesquisa);
         System.out.println(ListaPrograma.size());
+
+    }
+
+    public void ConsultaEntregas() {
+        int produto = 0;
+        float valorProduto = 0;
+        int qtProduto = 0;
+        float valorTotal = 0;
+        String localEntrega = null;
+        int programa = 0;
+
+        String pesquisa = "SELECT * FROM entregas";
+        int v1 = 0, v2 = 0, v3 = 0, v4 = 0, v5 = 0, v6 = 0;
+
+        if (v1 == 1 || v2 == 1 || v3 == 1 || v4 == 1 || v5 == 1 || v6 == 1) {
+            pesquisa = pesquisa + " WHERE ";
+        }
+        // alterar pesquisa
+        String y = "";
+        if (v1 == 1) {
+            pesquisa = pesquisa + " Produtos_pro_Id = " + produto;
+            y = " and ";
+        }
+        if (v2 == 1) {
+            pesquisa = pesquisa + "" + y + " ent_ValorProduto like '%" + valorProduto + "%'";
+            y = " and ";
+        }
+        if (v3 == 1) {
+            pesquisa = pesquisa + "" + y + " ent_QtProduto like '%" + qtProduto + "%'";
+        }
+        if (v4 == 1) {
+            pesquisa = pesquisa + "" + y + " ent_ValorTotal like '%" + valorTotal + "%'";
+        }
+        if (v5 == 1) {
+            pesquisa = pesquisa + "" + y + " ent_Locais like '%" + localEntrega + "%'";
+        }
+        if (v6 == 1) {
+            pesquisa = pesquisa + "" + y + " Programa_pro_Id like '%" + programa + "%'";
+        }
+
+        pesquisa = pesquisa + ";";
+        System.out.println("Mandei essa consulta: " + pesquisa);
+        ListaEntregas = con.ConsultaEntregas(pesquisa);
+        System.out.println(ListaEntregas.size());
 
     }
 }
