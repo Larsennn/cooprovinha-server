@@ -116,6 +116,16 @@ public class Conexao {
             System.out.println("Deu erro no Update!" + e);
         }
     }
+    void EditaPrograma(Programa Prog) {
+        try {
+            Conexao con = new Conexao();
+            Statement st = conexao.createStatement();
+
+            st.executeUpdate("UPDATE programa SET pro_Nome = '" + Prog.getNome() + "', pro_Sigla = '" + Prog.getSigla() + "', pro_Orgao = '" + Prog.getOrgao() + "' where pro_Id = " + Prog.getId());
+        } catch (Exception e) {
+            System.out.println("Deu erro no Update!" + e);
+        }
+    }
 
     LinkedList<Administrador> ConsultaAdministrador2(String consulta) {
         LinkedList<Administrador> ListaAdmin = new LinkedList();

@@ -180,8 +180,11 @@ public class Server implements Runnable {
                     System.out.println("O Nome informado foi:" + Prog.getNome());
                     System.out.println("O tipo informado foi:" + Prog.getSigla());
                     System.out.println("O preço informado foi:" + Prog.getOrgao());
-                    //con.EditaPrograma(Prog);
-                } else if ()
+                    con.EditaPrograma(Prog);
+                } else if (valor == 28) {
+                    ConsultaPrograma();
+                    Saida.writeObject(ListaPrograma);
+                }
             }
             Entrada.close();    
         } catch (IOException ex) {
