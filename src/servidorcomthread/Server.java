@@ -2,7 +2,7 @@ package servidorcomthread;
 
 import Pacotao.Administrador;
 import Pacotao.Entregas;
-import Pacotao.Pessoa;
+
 import Pacotao.Produto;
 import Pacotao.Produtor;
 import Pacotao.Programa;
@@ -11,13 +11,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Server implements Runnable {
 
@@ -72,13 +68,13 @@ public class Server implements Runnable {
             Produtor Pr;
             Programa Prog;
             Entregas Ent;
-            int valor = 12;
+            Integer valor = 12;
             while (valor != 99) {
 
                 ///recebendo um inteiro
                 System.out.println("Esperando mensagem");
 
-                valor = (int) Entrada.readObject();
+                valor = (Integer) Entrada.readObject();
                 System.out.println("Recebido " + valor);
                 if (valor == 12) {
                     System.out.println("Esperando o produto");
@@ -133,16 +129,17 @@ public class Server implements Runnable {
                     System.out.println("O ddd informado foi: " + Pr.getDdd());
                     System.out.println("O email informado foi: " + Pr.getEmail());
                     System.out.println("A DAP informada foi: " + Pr.getDAP());
-                    //con.EditaProdutor(Pr);
+                    con.EditaProdutor(Pr);
                 } else if (valor == 19) {
                     ConsultaProdutor();
                     Saida.writeObject(ListaProdutor);
                 } else if (valor == 20) {
                     P = (Produto) Entrada.readObject();
+                    System.out.println("Recebi o produto!");
                     System.out.println("O Nome informado foi:" + P.getNome());
                     System.out.println("O tipo informado foi:" + P.getTipo());
                     System.out.println("O preço informado foi:" + P.getPreco());
-                    //con.EditaProdutos(P);
+                    con.EditaProdutos(P);
                 } else if (valor == 21) {
                     ConsultaProduto();
                     Saida.writeObject(ListaProdutos);
@@ -170,9 +167,23 @@ public class Server implements Runnable {
                 } else if (valor == 26) {
                     ConsultaEntregas();
                     Saida.writeObject(ListaEntregas);
-                }
+                } else if (valor == 13) {
+                    Saida.writeObject("Login");
+                    String login = (String) Entrada.readObject();
+                    Saida.writeObject("Senha");
+                    String senha = (String) Entrada.readObject();
+                    int x = con.login(login, senha);
+                    Saida.writeObject(x);
+                } else if (valor == 27) {
+                    Prog = (Programa) Entrada.readObject();
+                    System.out.println("Recebi o produto!");
+                    System.out.println("O Nome informado foi:" + Prog.getNome());
+                    System.out.println("O tipo informado foi:" + Prog.getSigla());
+                    System.out.println("O preço informado foi:" + Prog.getOrgao());
+                    //con.EditaPrograma(Prog);
+                } else if ()
             }
-
+            Entrada.close();    
         } catch (IOException ex) {
             System.out.println("Deu erro: " + ex);
         } catch (ClassNotFoundException ex) {

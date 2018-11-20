@@ -89,7 +89,7 @@ public class Conexao {
             Conexao con = new Conexao();
             Statement st = conexao.createStatement();
 
-            st.executeUpdate("UPDATE administrador SET (adm_CPF,adm_RG, adm_Nome,adm_Data_Nasc, adm_Email, adm_telefone, adm_ddd) VALUES ('" + A.getCPF() + "','" + A.getRG() + "','" + A.getNome() + "','" + A.getData_nasc() + "','" + A.getEmail() + "', " + A.getTelefone() + ", " + A.getDdd() + " ) ");
+            st.executeUpdate("UPDATE administrador SET adm_CPF = '" + A.getCPF() + "',adm_RG = '" + A.getRG() + "', adm_Nome = '" + A.getNome() + "',adm_Data_Nasc = '" + A.getData_nasc() + "', adm_Email = '" + A.getEmail() + "', adm_telefone = " + A.getTelefone() + ", adm_ddd = " + A.getDdd() + " where adm_id = " + A.getId());
         } catch (Exception e) {
             System.out.println("Deu erro na Update!" + e);
         }
@@ -100,8 +100,8 @@ public class Conexao {
             Conexao con = new Conexao();
             Statement st = conexao.createStatement();
 
-            st.executeUpdate("UPDATE produtores SET (pes_DAP, pes_Nome, pes_Data_Nasc, pes_Email, pes_telefone, pes_ddd) VALUES ('" + Pr.getDAP() + "','" + Pr.getNome() + "','" + Pr.getData_nasc() + "','" + Pr.getEmail() + "'," + Pr.getTelefone() + ", " + Pr.getDdd() + " ) ");
-        } catch (Exception e) {
+            st.executeUpdate("UPDATE produtores SET pes_DAP = '" + Pr.getDAP() + "', pes_Nome = '" + Pr.getNome() + "',pes_Data_Nasc = '" + Pr.getData_nasc() + "', pes_Email = '" + Pr.getEmail() + "', pes_telefone = " + Pr.getTelefone() + ", pes_ddd= " + Pr.getDdd() + " where pes_id = " + Pr.getId());
+        } catch (Exception e) { 
             System.out.println("Deu erro no Update!" + e);
         }
     }
@@ -111,7 +111,7 @@ public class Conexao {
             Conexao con = new Conexao();
             Statement st = conexao.createStatement();
 
-            st.executeUpdate("UPDATE produtos SET pro_Nome = '" + P.getNome() + "', pro_Tipo = '" + P.getTipo() + "', pro_Preco = " + P.getPreco() + ") ");
+            st.executeUpdate("UPDATE produtos SET pro_Nome = '" + P.getNome() + "', pro_Tipo = '" + P.getTipo() + "', pro_Preco = " + P.getPreco() + " where pro_Id = " + P.getId());
         } catch (Exception e) {
             System.out.println("Deu erro no Update!" + e);
         }
@@ -127,6 +127,7 @@ public class Conexao {
             ResultSet rs = st.getResultSet();
 
             while (rs.next()) {
+                int id = rs.getInt ("adm_id");
                 String nome = rs.getString("adm_Nome");
                 String CPF = rs.getString("adm_CPF");
                 String RG = rs.getString("adm_RG");
@@ -136,7 +137,7 @@ public class Conexao {
                 int ddd = rs.getInt("adm_ddd");
                 String login = rs.getString("adm_login");
                 String senha = rs.getString("adm_senha");
-                Administrador meuAdministrador = new Administrador(nome, data_nasc, telefone, ddd, email, login, senha, RG, CPF);
+                Administrador meuAdministrador = new Administrador(id, nome, data_nasc, telefone, ddd, email, login, senha, RG, CPF);
                 ListaAdmin.add(meuAdministrador);
             }
             System.out.println("Tamano da lista" + ListaAdmin.size());
@@ -157,6 +158,8 @@ public class Conexao {
             ResultSet rs = st.getResultSet();
 
             while (rs.next()) {
+                int id = rs.getInt("pes_id");
+                System.out.println("Id produtor: " + id);
                 String nome = rs.getString("pes_Nome");
                 String data_nasc = rs.getString("pes_Data_Nasc");
                 int telefone = rs.getInt("pes_telefone");
@@ -165,7 +168,7 @@ public class Conexao {
                 String login = rs.getString("pes_login");
                 String senha = rs.getString("pes_senha");
                 String DAP = rs.getString("pes_DAP");
-                Produtor meuProdutor = new Produtor(nome, data_nasc, telefone, ddd, email, login, senha, DAP);
+                Produtor meuProdutor = new Produtor(id, nome, data_nasc, telefone, ddd, email, login, senha, DAP);
                 ListaProdutor.add(meuProdutor);
             }
             System.out.println("Tamano da lista" + ListaProdutor.size());
@@ -252,4 +255,31 @@ public class Conexao {
         }
         return ListaEntregas;
     }
+    int login(String login, String senha){
+        String CPF=""; 
+        int x = 0;
+        try {
+            Conexao con = new Conexao();
+            Statement st = conexao.createStatement();
+            st.executeQuery("SELECT adm_CPF from administrador where adm_login = '"+login+"' and adm_senha = '"+senha+"';");
+            ResultSet rs = st.getResultSet();
+            
+            while (rs.next()){
+                CPF=rs.getString("adm_CPF"); 
+                x = 1;
+            }
+            if (x==0){
+            st.executeQuery("SELECT pes_DAP from produtores where pes_login = '"+login+"' and pes_senha = '"+senha+"';");
+            rs = st.getResultSet();
+            while (rs.next()){
+                String DAP = null;
+                DAP=rs.getString("pes_DAP");
+                x = 2;
+            }
+            }
+        } catch (Exception e) {
+            System.out.println("Deu erro no login!" + e);
+        }
+        return x;
+        }
 }
